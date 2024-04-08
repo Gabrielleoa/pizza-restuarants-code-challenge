@@ -16,5 +16,11 @@ db.init_app(app)
 def restaurants(id):
     restaurant = Restaurant.query.filter(Restaurant.id==id).first()
 
-    if request.method == 'GET':
-        restaurant
+    restaurant_dict= restaurant.to_dict()
+
+    response = make_response(
+        restaurant_dict,
+        200
+    )
+    return response
+    

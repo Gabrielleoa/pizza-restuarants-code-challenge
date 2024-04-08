@@ -27,13 +27,13 @@ class Pizza(db.Model, SerializerMixin):
     ingredients = db.Column(db.String)
 
 class RestaurantPizza(db.Model, SerializerMixin): 
-    __tablename__ = ('restuarantpizzas')
+    __tablename__ = 'restuarantpizzas'
 
     serialize_rules= ('-restaurantpizza.pizza','-restaurantpizza.restaurant',)
 
 
-    id = db.Column(db.Integer, primary_key=True),
-    price = db.Column(db.Integer),
+    id = db.Column(db.Integer, primary_key=True)
+    price = db.Column(db.Integer)
 
 
     pizza_id = db.Column(db.Integer, db.ForeignKey("pizzas.id"))
