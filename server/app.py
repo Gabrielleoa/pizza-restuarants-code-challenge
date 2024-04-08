@@ -14,13 +14,10 @@ db.init_app(app)
 
 @app.route('/restaurants', methods=['GET'])
 def restaurants(id):
-    restaurant = Restaurant.query.filter(Restaurant.id==id).first()
+    restaurants = Restaurant.query.all()
 
-    restaurant_dict= restaurant.to_dict()
+    restaurants_list = [restaurant.to_dict() for restaurant in restaurants]
+    return jsonify(restaurants_list), 200
 
-    response = make_response(
-        restaurant_dict,
-        200
-    )
-    return response
+
     
