@@ -55,6 +55,44 @@ def get_or_delete_restaurant(id):
         db.session.commit()
 
         return '', 204
+    @app.route('/pizzas', methods=['GET'])
+    def pizzas():
+        pizzas = Pizza.query.all()
+        pizza_list=[]
+        for pizza in pizzas:
+            pizza_info={
+                "id": pizza.id,
+                "name": pizza.name,
+                "ingredients": pizza.ingredients            
+                }
+            pizza_list.append(pizza_info)
+        return jsonify(pizza_list)
+    
+    @app.route('/restaurant_pizzas', methods=['POST'])
+    def create_restaurant_pizza():
+        data = request.json
+
+        
+        pizza = Pizza.query.get(data['pizza_id'])
+        restaurant = Restaurant.query.get(data['restaurant_id'])
+        if pizza is None or restaurant is None:
+            return jsonify({"errors": ["validation errors"]}), 400
+
+        
+        new_restaurant_pizza = RestaurantPizza(
+            price=data['price'],
+            pizza_id=data['pizza_id'],
+            restaurant_id=data['restaurant_id']
+        )
+
+        db.session.add(new_restaurant_pizza)
+        db.session.commit()
+
+        return jsonify({
+            "id": pizza.id,
+            "name": pizza.name,
+            "ingredients": pizza.ingredients
+        }), 201
 
 
     
